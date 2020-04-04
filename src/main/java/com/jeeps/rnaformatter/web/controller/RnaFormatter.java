@@ -43,8 +43,10 @@ public class RnaFormatter {
                          TargetSitesForm targetSitesForm) {
         targetSitesForm.getTargetSites().forEach(targetSite -> targetSite.setName(targetSitesForm.getName()));
         try {
-            InputStream is = rnaFormatterService.getRnaResultDoc(targetSitesForm.getTargetSites());
+            InputStream is = rnaFormatterService.getRnaResultDoc(targetSitesForm.getTargetSites(),
+                    targetSitesForm.isFullResults());
 
+            response.setHeader("Content-disposition", "attachment; filename="+ targetSitesForm.getName() + "_gRNA.docx");
             response.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
             org.apache.commons.io.IOUtils.copy(is, response.getOutputStream());
             response.flushBuffer();
@@ -53,20 +55,5 @@ public class RnaFormatter {
             throw new RuntimeException("IOError writing file to output stream");
         }
         return "redirect:/";
-    }
-
-    @GetMapping("/download")
-    public void downloadDoc(HttpServletResponse response) {
-        try {
-            WordDocWriter wordDocWriter = new WordDocWriter();
-            InputStream is = wordDocWriter.getDoc();
-
-            response.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
-            org.apache.commons.io.IOUtils.copy(is, response.getOutputStream());
-            response.flushBuffer();
-            is.close();
-        } catch (IOException e) {
-            throw new RuntimeException("IOError writing file to output stream");
-        }
     }
 }

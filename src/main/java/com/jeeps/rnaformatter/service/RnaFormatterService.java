@@ -13,11 +13,11 @@ import java.util.stream.IntStream;
 
 @Service
 public class RnaFormatterService {
-    public InputStream getRnaResultDoc(List<TargetSite> targetSites) throws IOException {
-        WordDocWriter wordDocWriter = new WordDocWriter();
+    public InputStream getRnaResultDoc(List<TargetSite> targetSites, boolean fullResults) throws IOException {
+        WordDocWriter wordDocWriter = new WordDocWriter(fullResults);
 
         IntStream.range(0, targetSites.size())
-                .mapToObj(i -> RnaWrapper.wrap(targetSites.get(i), i))
+                .mapToObj(i -> RnaWrapper.wrap(targetSites.get(i), i + 1))
                 .forEach(wordDocWriter::writeRnaResult);
         return wordDocWriter.getDoc();
     }

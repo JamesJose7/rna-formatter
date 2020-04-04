@@ -13,47 +13,51 @@ import java.util.List;
 public class WordDocWriter {
 
     private XWPFDocument document;
+    boolean fullResults;
     private int size = 12;
 
-    public WordDocWriter() {
+    public WordDocWriter(boolean fullResults) {
         document = new XWPFDocument();
+        this.fullResults = fullResults;
     }
 
     public void writeRnaResult(RnaResult result) {
-        XWPFParagraph firstLine = document.createParagraph();
+        if (fullResults) {
+            XWPFParagraph firstLine = document.createParagraph();
 
-        // lgals2a-ts1	target site
-        XWPFRun run1 = firstLine.createRun();
-        run1.setText(result.getSequenceName());
-        run1.addTab();
-        run1.setText("target site");
-        run1.addTab();
-        run1.setFontSize(size);
+            // lgals2a-ts1	target site
+            XWPFRun run1 = firstLine.createRun();
+            run1.setText(result.getSequenceName());
+            run1.addTab();
+            run1.setText("target site");
+            run1.addTab();
+            run1.setFontSize(size);
 
-        if (result.getType() == TargetSite.TYPE_NGG) { // NGG
-            XWPFRun run2 = firstLine.createRun();
-            String seg1 = result.getTargetSite().getRnaSegment().substring(0, 20);
-            run2.setText(seg1);
-            run2.setBold(true);
-            run2.setFontSize(size);
+            if (result.getType() == TargetSite.TYPE_NGG) { // NGG
+                XWPFRun run2 = firstLine.createRun();
+                String seg1 = result.getTargetSite().getRnaSegment().substring(0, 20);
+                run2.setText(seg1);
+                run2.setBold(true);
+                run2.setFontSize(size);
 
-            XWPFRun run3 = firstLine.createRun();
-            String seg2 = result.getTargetSite().getRnaSegment().substring(20);
-            run3.setText(seg2);
-            run3.setUnderline(UnderlinePatterns.SINGLE);
-            run3.setFontSize(size);
-        } else if (result.getType() == TargetSite.TYPE_CCN) { // CCN
-            XWPFRun run2 = firstLine.createRun();
-            String seg1 = result.getTargetSite().getRnaSegment().substring(0, 3);
-            run2.setText(seg1);
-            run2.setUnderline(UnderlinePatterns.SINGLE);
-            run2.setFontSize(size);
+                XWPFRun run3 = firstLine.createRun();
+                String seg2 = result.getTargetSite().getRnaSegment().substring(20);
+                run3.setText(seg2);
+                run3.setUnderline(UnderlinePatterns.SINGLE);
+                run3.setFontSize(size);
+            } else if (result.getType() == TargetSite.TYPE_CCN) { // CCN
+                XWPFRun run2 = firstLine.createRun();
+                String seg1 = result.getTargetSite().getRnaSegment().substring(0, 3);
+                run2.setText(seg1);
+                run2.setUnderline(UnderlinePatterns.SINGLE);
+                run2.setFontSize(size);
 
-            XWPFRun run3 = firstLine.createRun();
-            String seg2 = result.getTargetSite().getRnaSegment().substring(3);
-            run3.setText(seg2);
-            run3.setBold(true);
-            run3.setFontSize(size);
+                XWPFRun run3 = firstLine.createRun();
+                String seg2 = result.getTargetSite().getRnaSegment().substring(3);
+                run3.setText(seg2);
+                run3.setBold(true);
+                run3.setFontSize(size);
+            }
         }
 
         // Results
@@ -98,7 +102,8 @@ public class WordDocWriter {
         XWPFRun seqRight = secondLine.createRun();
         seqRight.setText(TargetSite.SECOND_WRAP);
         seqRight.setFontSize(size);
-        seqRight.addBreak();
+        if (fullResults)
+            seqRight.addBreak();
     }
 
     public InputStream getDoc() throws IOException {
