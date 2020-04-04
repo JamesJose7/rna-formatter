@@ -5,7 +5,7 @@ import java.util.List;
 public class TargetSitesForm {
     private String name;
     private List<TargetSite> targetSites;
-    private boolean fullResults;
+    private String downloadType;
 
     public String getName() {
         return name;
@@ -23,11 +23,11 @@ public class TargetSitesForm {
         this.targetSites = targetSites;
     }
 
-    public boolean isFullResults() {
-        return fullResults;
+    public String getDownloadType() {
+        return downloadType;
     }
 
-    public void setFullResults(boolean fullResults) {
-        this.fullResults = fullResults;
+    public void setDownloadType(String downloadType) {
+        this.downloadType = downloadType;
     }
 }

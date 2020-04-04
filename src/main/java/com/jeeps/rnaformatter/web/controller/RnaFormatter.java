@@ -33,7 +33,7 @@ public class RnaFormatter {
             targetSitesForm = (TargetSitesForm) model.getAttribute("targetSitesForm");
         model.addAttribute("targetSitesForm", targetSitesForm);
         model.addAttribute("action", context + "/result");
-        model.addAttribute("actionBtn", "Format");
+        model.addAttribute("actionBtn", "Download");
         return "index";
     }
 
@@ -44,7 +44,7 @@ public class RnaFormatter {
         targetSitesForm.getTargetSites().forEach(targetSite -> targetSite.setName(targetSitesForm.getName()));
         try {
             InputStream is = rnaFormatterService.getRnaResultDoc(targetSitesForm.getTargetSites(),
-                    targetSitesForm.isFullResults());
+                    targetSitesForm.getDownloadType().equals("grna"));
 
             response.setHeader("Content-disposition", "attachment; filename="+ targetSitesForm.getName() + "_gRNA.docx");
             response.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
