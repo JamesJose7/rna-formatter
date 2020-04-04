@@ -41,6 +41,7 @@ public class RnaFormatter {
     public String result(HttpServletResponse response,
                          Model model,
                          TargetSitesForm targetSitesForm) {
+        targetSitesForm.getTargetSites().forEach(targetSite -> targetSite.setName(targetSitesForm.getName()));
         try {
             InputStream is = rnaFormatterService.getRnaResultDoc(targetSitesForm.getTargetSites());
 
