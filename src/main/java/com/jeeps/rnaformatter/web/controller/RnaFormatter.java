@@ -1,4 +1,4 @@
-package com.jeeps.rnaformatter.controller.web;
+package com.jeeps.rnaformatter.web.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
