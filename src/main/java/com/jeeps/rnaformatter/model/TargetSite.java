@@ -1,7 +1,11 @@
 package com.jeeps.rnaformatter.model;
 
 public class TargetSite {
-    private static final String FULL_SEGMENT = "aattaatacgactcactata%sgttttagagctagaaatagc";
+    public static final String FIRST_WRAP = "aattaatacgactcactata";
+    public static final String SECOND_WRAP = "gttttagagctagaaatagc";
+    private static final String FULL_SEGMENT = FIRST_WRAP + "%s" + SECOND_WRAP;
+    public static final int TYPE_NGG = 0;
+    public static final int TYPE_CCN = 1;
 
     private String name;
     private String rnaSegment;

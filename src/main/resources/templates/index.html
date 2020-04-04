@@ -6,7 +6,59 @@
 <div th:replace="layout :: nav"></div>
 <div class="container">
 
+    <h1>RNA Formatter?</h1>
+
+    <form th:action="${action}" th:object="${targetSitesForm}" method="post">
+        <div class="row">
+            <div class="col-12 table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <td>Target Site</td>
+                        <td>Segment</td>
+                    </tr>
+                    </thead>
+                    <tbody id="targetSitesTable">
+                    <tr th:each="targetSite, stat : ${targetSitesForm.targetSites}">
+                        <td>
+                            <input type="text" class="form-control ts-input" th:id="name- + __${stat.index}__" name="name" th:value="${targetSite.name}" th:field="*{targetSites[__${stat.index}__].name}" th:classappend="${#fields.hasErrors('targetSites[__${stat.index}__].name')} ? 'field-error' : ''">
+                            <span class="field-error" th:if="${#fields.hasErrors('targetSites[__${stat.index}__].name')}" th:errors="*{targetSites[__${stat.index}__].name}"></span>
+                        </td>
+                        <td>
+                            <input type="text" class="form-control ts-input" th:id="rnaSegment- + __${stat.index}__" name="rnaSegment" th:value="${targetSite.rnaSegment}" th:field="*{targetSites[__${stat.index}__].rnaSegment}" th:classappend="${#fields.hasErrors('targetSites[__${stat.index}__].rnaSegment')} ? 'field-error' : ''">
+                            <span class="field-error" th:if="${#fields.hasErrors('targetSites[__${stat.index}__].rnaSegment')}" th:errors="*{targetSites[__${stat.index}__].rnaSegment}"></span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <button type="button" class="btn btn-secondary" id="addSegment">Add segment</button>
+
+        <div class="text-lg-right mt-3 mb-4">
+            <button type="submit" class="btn btn-success d-lg-inline d-block submit-btn" th:text="${actionBtn}"></button>
+        </div>
+    </form>
+
 </div>
 <div th:replace="layout :: scripts"></div>
+<script th:inline="javascript">
+    var i = 1;
+    var currentId = 0;
+    $("#addSegment").click(function() {
+        $("#targetSitesTable tr:last").clone().find(".ts-input").each(function() {
+            var currentClass = 'name';
+            $(this).val('').attr('id', function(_, id) {
+                currentClass = id.split('-')[0];
+                currentId = parseInt(id.split('-')[1], 10) + 1;
+                return currentClass + '-' + currentId;
+            });
+            $(this).val('').attr('name', function(_, id) {
+                return `targetSites[${currentId}].${currentClass}`
+            });
+        }).end().appendTo("#targetSitesTable");
+        i++;
+    });
+</script>
 </body>
 </html>

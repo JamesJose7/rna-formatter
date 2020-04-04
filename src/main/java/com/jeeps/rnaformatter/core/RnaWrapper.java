@@ -17,12 +17,15 @@ public class RnaWrapper {
             return new RnaResult(sequenceName, ErrorUtils.SEQUENCE_LENGTH, targetSite);
 
         String newSequence;
+        int type;
         // Check what type of sequence it is
         if (targetSite.getRnaSegment().matches(".*([ACTG])GG$")) { // NGG
             newSequence = targetSite.getRnaSegment().substring(0, 20);
+            type = TargetSite.TYPE_NGG;
         } else if (targetSite.getRnaSegment().matches("^CC([ACTG]).*")) { // CCN
             String seqFragment = targetSite.getRnaSegment().substring(3, 23);
             newSequence = RnaUtil.reverseComplement(seqFragment);
+            type = TargetSite.TYPE_CCN;
         } else
             return new RnaResult(sequenceName, ErrorUtils.INVALID_PATTERN, targetSite);
 
@@ -38,8 +41,8 @@ public class RnaWrapper {
         }
 
         // Wrap sequence
-        newSequence = TargetSite.wrapSegment(newSequence);
+        String wrappedSegment = TargetSite.wrapSegment(newSequence);
 
-        return new RnaResult(sequenceName, targetSite, newSequence, changedCharacters);
+        return new RnaResult(sequenceName, targetSite, newSequence, wrappedSegment, changedCharacters, type);
     }
 }
