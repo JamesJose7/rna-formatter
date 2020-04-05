@@ -8,21 +8,32 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 public class WordDocWriter {
 
     private XWPFDocument document;
-    boolean fullResults;
+    boolean isGrna;
     private int size = 12;
 
-    public WordDocWriter(boolean fullResults) {
+    public WordDocWriter(boolean isGrna) {
         document = new XWPFDocument();
-        this.fullResults = fullResults;
+        this.isGrna = isGrna;
+        if (isGrna)
+            writeHeader();
+    }
+
+    private void writeHeader() {
+        XWPFParagraph headerFirstLine = document.createParagraph();
+        XWPFRun headerFirstLineRun = headerFirstLine.createRun();
+        headerFirstLineRun.setText("gRNA-scaffold");
+        headerFirstLineRun.addBreak();
+        headerFirstLineRun.setText("gatccgcaccgactcggtgccactttttcaagttgataacggactagccttattttaacttgctatttctagctctaaaac");
+        headerFirstLineRun.addBreak();
+        headerFirstLineRun.setFontSize(size);
     }
 
     public void writeRnaResult(RnaResult result) {
-        if (fullResults) {
+        if (isGrna) {
             XWPFParagraph firstLine = document.createParagraph();
 
             // lgals2a-ts1	target site
@@ -102,7 +113,7 @@ public class WordDocWriter {
         XWPFRun seqRight = secondLine.createRun();
         seqRight.setText(TargetSite.SECOND_WRAP);
         seqRight.setFontSize(size);
-        if (fullResults)
+        if (isGrna)
             seqRight.addBreak();
     }
 
