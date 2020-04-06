@@ -5,7 +5,8 @@ import java.util.stream.Collectors;
 
 public class RnaUtil {
     public static String reverseComplement(String seq) {
-        String complement = Arrays.stream(seq.split(""))
+        String complement = Arrays.stream(seq.trim().split(""))
+                .filter(s -> !s.isEmpty())
                 .map(String::toUpperCase)
                 .map(c -> {
                     switch (c) {
