@@ -156,6 +156,7 @@ public class WordDocWriter {
         footerRun.addTab();
         footerRun.setText(reverse3);
         footerRun.addBreak();
+        footerRun.setFontSize(size);
     }
 
     public InputStream getDoc() throws IOException {

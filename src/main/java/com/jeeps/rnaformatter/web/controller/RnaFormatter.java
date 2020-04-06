@@ -45,7 +45,10 @@ public class RnaFormatter {
         try {
             InputStream is = rnaFormatterService.getRnaResultDoc(targetSitesForm);
 
-            response.setHeader("Content-disposition", "attachment; filename="+ targetSitesForm.getName() + "_gRNA.docx");
+            String type = "gRNA";
+            if (targetSitesForm.getDownloadType().equals("primers"))
+                type = "primers";
+            response.setHeader("Content-disposition", "attachment; filename="+ targetSitesForm.getName() + "_" + type + ".docx");
             response.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
             org.apache.commons.io.IOUtils.copy(is, response.getOutputStream());
             response.flushBuffer();
