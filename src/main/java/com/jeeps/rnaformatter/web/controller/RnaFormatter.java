@@ -43,8 +43,7 @@ public class RnaFormatter {
                          TargetSitesForm targetSitesForm) {
         targetSitesForm.getTargetSites().forEach(targetSite -> targetSite.setName(targetSitesForm.getName()));
         try {
-            InputStream is = rnaFormatterService.getRnaResultDoc(targetSitesForm.getTargetSites(),
-                    targetSitesForm.getDownloadType().equals("grna"));
+            InputStream is = rnaFormatterService.getRnaResultDoc(targetSitesForm);
 
             response.setHeader("Content-disposition", "attachment; filename="+ targetSitesForm.getName() + "_gRNA.docx");
             response.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");

@@ -11,25 +11,17 @@
     <form th:action="${action}" th:object="${targetSitesForm}" method="post">
 
         <div class="form-group">
-            <label for="name">Name <span class="field-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span></label>
-            <input type="text" class="form-control" id="name" placeholder="Gene" name="name" th:field="*{name}" th:classappend="${#fields.hasErrors('name')} ? 'field-error' : ''">
+            <label for="name">Gene <span class="field-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span></label>
+            <input type="text" class="form-control" id="name" placeholder="lgals2a" name="name" th:field="*{name}" th:classappend="${#fields.hasErrors('name')} ? 'field-error' : ''">
         </div>
 
         <div class="row">
-            <div class="col-12 table-responsive">
-                <table class="table">
-                    <thead>
-                    <tr>
-<!--                        <td>Target Site</td>-->
-                        <td>Segments</td>
-                    </tr>
-                    </thead>
+            <div class="col-md-6 table-responsive">
+                <h3>Sequences</h3>
+                <table class="table table-borderless">
                     <tbody id="targetSitesTable">
                     <tr th:each="targetSite, stat : ${targetSitesForm.targetSites}">
-<!--                        <td>-->
-<!--                            <input type="text" class="form-control ts-input" th:id="name- + __${stat.index}__" name="name" th:value="${targetSite.name}" th:field="*{targetSites[__${stat.index}__].name}" th:classappend="${#fields.hasErrors('targetSites[__${stat.index}__].name')} ? 'field-error' : ''">-->
-<!--                            <span class="field-error" th:if="${#fields.hasErrors('targetSites[__${stat.index}__].name')}" th:errors="*{targetSites[__${stat.index}__].name}"></span>-->
-<!--                        </td>-->
+                        <td class="targetSiteCounterCounter ts-input">Target Site 1</td>
                         <td>
                             <input type="text" class="form-control ts-input" th:id="rnaSegment- + __${stat.index}__" name="rnaSegment" th:value="${targetSite.rnaSegment}" th:field="*{targetSites[__${stat.index}__].rnaSegment}" th:classappend="${#fields.hasErrors('targetSites[__${stat.index}__].rnaSegment')} ? 'field-error' : ''">
                             <span class="field-error" th:if="${#fields.hasErrors('targetSites[__${stat.index}__].rnaSegment')}" th:errors="*{targetSites[__${stat.index}__].rnaSegment}"></span>
@@ -37,9 +29,32 @@
                     </tr>
                     </tbody>
                 </table>
+                <button type="button" class="btn btn-secondary" id="addSegment">Add segment</button>
+            </div>
+            <div class="col-md-6 table-responsive">
+                <h3>Amplicon Primers</h3>
+                <table class="table table-borderless">
+                    <tbody>
+                        <tr>
+                            <td>5'-Forward</td>
+                            <td><input type="text" class="form-control" id="forward5" name="forward5" th:field="*{forward5}"></td>
+                        </tr>
+                        <tr>
+                            <td>5'-Reverse</td>
+                            <td><input type="text" class="form-control" id="reverse5" name="reverse5" th:field="*{reverse5}"></td>
+                        </tr>
+                        <tr>
+                            <td>3'-Forward</td>
+                            <td><input type="text" class="form-control" id="forward3" name="forward3" th:field="*{forward3}"></td>
+                        </tr>
+                        <tr>
+                            <td>3'-Reverse</td>
+                            <td><input type="text" class="form-control" id="reverse3" name="reverse3" th:field="*{reverse3}"></td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
-        <button type="button" class="btn btn-secondary" id="addSegment">Add segment</button>
 
         <div class="text-right">
             <div class="form-check form-check-inline">
@@ -65,14 +80,18 @@
     $("#addSegment").click(function() {
         $("#targetSitesTable tr:last").clone().find(".ts-input").each(function() {
             var currentClass = 'name';
-            $(this).val('').attr('id', function(_, id) {
-                currentClass = id.split('-')[0];
-                currentId = parseInt(id.split('-')[1], 10) + 1;
-                return currentClass + '-' + currentId;
-            });
-            $(this).val('').attr('name', function(_, id) {
-                return `targetSites[${currentId}].${currentClass}`
-            });
+            if ($(this).hasClass("targetSiteCounterCounter")) {
+                $(this).text('Target Site ' + (i + 1))
+            } else {
+                $(this).val('').attr('id', function (_, id) {
+                    currentClass = id.split('-')[0];
+                    currentId = parseInt(id.split('-')[1], 10) + 1;
+                    return currentClass + '-' + currentId;
+                });
+                $(this).val('').attr('name', function (_, id) {
+                    return `targetSites[${currentId}].${currentClass}`
+                });
+            }
         }).end().appendTo("#targetSitesTable");
         i++;
     });

@@ -12,11 +12,30 @@ import java.io.InputStream;
 public class WordDocWriter {
 
     private XWPFDocument document;
-    boolean isGrna;
+    private String name;
+    private boolean isGrna;
+    private String forward5;
+    private String reverse5;
+    private String forward3;
+    private String reverse3;
     private int size = 12;
 
-    public WordDocWriter(boolean isGrna) {
+    public WordDocWriter(String name, boolean isGrna, String forward5, String reverse5, String forward3, String reverse3) {
         document = new XWPFDocument();
+        this.name = name;
+        this.isGrna = isGrna;
+        this.forward5 = forward5;
+        this.reverse5 = reverse5;
+        this.forward3 = forward3;
+        this.reverse3 = reverse3;
+        if (isGrna)
+            writeHeader();
+    }
+
+
+    public WordDocWriter(String name, boolean isGrna) {
+        document = new XWPFDocument();
+        this.name = name;
         this.isGrna = isGrna;
         if (isGrna)
             writeHeader();
@@ -117,7 +136,32 @@ public class WordDocWriter {
             seqRight.addBreak();
     }
 
+    private void primerFooter() {
+        XWPFParagraph footer = document.createParagraph();
+        XWPFRun footerRun = footer.createRun();
+        footerRun.addBreak();
+        footerRun.setText(String.format("%s-5'-for", name));
+        footerRun.addTab();
+        footerRun.setText(forward5);
+        footerRun.addBreak();
+        footerRun.setText(String.format("%s-5'-rev", name));
+        footerRun.addTab();
+        footerRun.setText(reverse5);
+        footerRun.addBreak();
+        footerRun.setText(String.format("%s-3'-for", name));
+        footerRun.addTab();
+        footerRun.setText(forward3);
+        footerRun.addBreak();
+        footerRun.setText(String.format("%s-3'-rev", name));
+        footerRun.addTab();
+        footerRun.setText(reverse3);
+        footerRun.addBreak();
+    }
+
     public InputStream getDoc() throws IOException {
+        // if it's primers print footer
+        if (!isGrna)
+            primerFooter();
         ByteArrayOutputStream b = new ByteArrayOutputStream();
         document.write(b);
         return new ByteArrayInputStream(b.toByteArray());
