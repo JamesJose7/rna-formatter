@@ -11,8 +11,8 @@
     <form th:action="${action}" th:object="${targetSitesForm}" method="post">
 
         <div class="form-group">
-            <label for="name">Gene <span class="field-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span></label>
-            <input type="text" class="form-control" id="name" placeholder="lgals2a" name="name" th:field="*{name}" th:classappend="${#fields.hasErrors('name')} ? 'field-error' : ''">
+            <label for="name">Gene name<span class="field-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span></label>
+            <input type="text" class="form-control" id="name" placeholder="e.g. lgals2a" name="name" th:field="*{name}" th:classappend="${#fields.hasErrors('name')} ? 'field-error' : ''">
         </div>
 
         <div class="row">
