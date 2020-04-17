@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head('Highlighter')"></head>
+<body>
+
+<div th:replace="layout :: nav"></div>
+<div class="container">
+
+    <h1 class="mt-4 mb-5">Sequence Highlighter</h1>
+
+    <form th:action="${action}" th:object="${highlighterForm}" method="post">
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="name">File name<span class="field-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span></label>
+                    <input type="text" class="form-control" id="name" name="name" th:field="*{name}" th:classappend="${#fields.hasErrors('name')} ? 'field-error' : ''">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="url">URL<span class="field-error" th:if="${#fields.hasErrors('url')}" th:errors="*{url}"></span></label>
+                    <input type="text" class="form-control" id="url" name="url" th:field="*{url}" th:classappend="${#fields.hasErrors('url')} ? 'field-error' : ''">
+                </div>
+            </div>
+        </div>
+
+        <div class="text-lg-right mt-3 mb-4">
+            <button type="submit" class="btn btn-success d-lg-inline d-block submit-btn" th:text="${actionBtn}"></button>
+        </div>
+    </form>
+
+</div>
+<div th:replace="layout :: scripts"></div>
+</body>
+</html>
