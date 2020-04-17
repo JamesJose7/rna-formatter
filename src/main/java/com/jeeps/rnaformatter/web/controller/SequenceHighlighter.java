@@ -1,11 +1,8 @@
 package com.jeeps.rnaformatter.web.controller;
 
 import com.jeeps.rnaformatter.model.HighlighterForm;
-import com.jeeps.rnaformatter.model.TargetSite;
-import com.jeeps.rnaformatter.model.TargetSitesForm;
 import com.jeeps.rnaformatter.service.SequenceHighlighterService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,13 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
 
 @Controller
 public class SequenceHighlighter {
-    @Value("${server.servlet.context-path}")
-    private String context;
+//    @Value("${server.servlet.context-path}")
+//    private String context;
 
     @Autowired
     private SequenceHighlighterService sequenceHighlighterService;
@@ -32,7 +27,7 @@ public class SequenceHighlighter {
         if (model.containsAttribute("highlighterForm"))
             highlighterForm = (HighlighterForm) model.getAttribute("highlighterForm");
         model.addAttribute("highlighterForm", highlighterForm);
-        model.addAttribute("action", context + "/download");
+        model.addAttribute("action", /*context +*/ "/download");
         model.addAttribute("actionBtn", "Download");
         return "highlighter";
     }

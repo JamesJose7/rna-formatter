@@ -1,11 +1,9 @@
 package com.jeeps.rnaformatter.web.controller;
 
-import com.jeeps.rnaformatter.core.WordDocWriter;
 import com.jeeps.rnaformatter.model.TargetSite;
 import com.jeeps.rnaformatter.model.TargetSitesForm;
 import com.jeeps.rnaformatter.service.RnaFormatterService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,22 +17,22 @@ import java.util.Collections;
 
 @Controller
 public class RnaFormatter {
-    @Value("${server.servlet.context-path}")
-    private String context;
+//    @Value("${server.servlet.context-path}")
+//    private String context;
 
     @Autowired
     private RnaFormatterService rnaFormatterService;
 
-    @GetMapping("/")
+    @GetMapping("/gRNA_Designer")
     public String homePage(Model model) {
         TargetSitesForm targetSitesForm = new TargetSitesForm();
         targetSitesForm.setTargetSites(new ArrayList<>(Collections.singletonList(new TargetSite())));
         if (model.containsAttribute("targetSitesForm"))
             targetSitesForm = (TargetSitesForm) model.getAttribute("targetSitesForm");
         model.addAttribute("targetSitesForm", targetSitesForm);
-        model.addAttribute("action", context + "/result");
+        model.addAttribute("action", /*context +*/ "/result");
         model.addAttribute("actionBtn", "Download");
-        return "index";
+        return "grnaDesigner";
     }
 
     @PostMapping("/result")
@@ -56,6 +54,6 @@ public class RnaFormatter {
         } catch (IOException e) {
             throw new RuntimeException("IOError writing file to output stream");
         }
-        return "redirect:/";
+        return "redirect:/gRNA_Designer";
     }
 }
