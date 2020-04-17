@@ -15,7 +15,7 @@ import java.util.List;
 
 public class GeneSeqScrapper {
 
-    public static final long TIMEOUT_MILLIS = 8000L;
+    public static final long TIMEOUT_MILLIS = 6000L;
 
     public String extractSequence(String name, String url) throws IOException {
         WebClient webClient = new WebClient();

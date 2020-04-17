@@ -14,23 +14,35 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="name">File name<span class="field-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span></label>
-                    <input type="text" class="form-control" id="name" name="name" th:field="*{name}" th:classappend="${#fields.hasErrors('name')} ? 'field-error' : ''">
+                    <input type="text" class="form-control" id="name" name="name" th:field="*{name}" th:classappend="${#fields.hasErrors('name')} ? 'field-error' : ''" required>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="url">URL<span class="field-error" th:if="${#fields.hasErrors('url')}" th:errors="*{url}"></span></label>
-                    <input type="text" class="form-control" id="url" name="url" th:field="*{url}" th:classappend="${#fields.hasErrors('url')} ? 'field-error' : ''">
+                    <input type="text" class="form-control" id="url" name="url" th:field="*{url}" th:classappend="${#fields.hasErrors('url')} ? 'field-error' : ''" required>
                 </div>
             </div>
         </div>
 
         <div class="text-lg-right mt-3 mb-4">
-            <button type="submit" class="btn btn-success d-lg-inline d-block submit-btn" th:text="${actionBtn}"></button>
+            <button type="submit" id="submitBtn" class="btn btn-success d-lg-inline d-block submit-btn" th:text="${actionBtn}"></button>
+            <button class="btn btn-success d-none" id="loadingButton" type="button" disabled>
+                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                Loading...
+            </button>
         </div>
     </form>
 
 </div>
 <div th:replace="layout :: scripts"></div>
+<script>
+    $("#submitBtn").click(() => {
+        if ($("#name").val() !== '' && $("#url").val() !== '') {
+            // $("#submitBtn")[0].style.setProperty('display', 'none', 'important');
+            // $("#loadingButton").removeClass("d-none");
+        }
+    });
+</script>
 </body>
 </html>
