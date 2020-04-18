@@ -21,7 +21,7 @@ public class SequenceHighlighter {
     @Autowired
     private SequenceHighlighterService sequenceHighlighterService;
 
-    @GetMapping("/highlighter")
+    @GetMapping("/downloadEnsmbl")
     public String highlighter(Model model) {
         HighlighterForm highlighterForm = new HighlighterForm();
         if (model.containsAttribute("highlighterForm"))
@@ -47,6 +47,6 @@ public class SequenceHighlighter {
         } catch (IOException e) {
             throw new RuntimeException("IOError writing file to output stream");
         }
-        return "redirect:/highlighter";
+        return "redirect:/downloadEnsmbl";
     }
 }
