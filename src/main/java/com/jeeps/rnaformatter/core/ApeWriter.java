@@ -1,7 +1,6 @@
 package com.jeeps.rnaformatter.core;
 
 import com.jeeps.rnaformatter.model.Exon;
-import org.biojava.nbio.core.exceptions.CompoundNotFoundException;
 import org.biojava.nbio.core.sequence.DNASequence;
 import org.biojava.nbio.core.sequence.io.GenbankWriterHelper;
 
@@ -19,7 +18,6 @@ public class ApeWriter {
             "VERSION     \n" +
             "SOURCE      .\n" +
             "  ORGANISM  .\n" +
-            "COMMENT     lgals2a-5'-for/lgals2a-5'-rev: 791bp\n" +
             "COMMENT     \n" +
             "COMMENT     ApEinfo:methylated:1\n" +
             "FEATURES             Location/Qualifiers\n";
