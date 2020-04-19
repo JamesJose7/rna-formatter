@@ -31,35 +31,37 @@ public class GeneSeqScrapper {
 
         DomNodeList<DomNode> sequences = page.querySelectorAll("span._seq");
         for (DomNode sequence : sequences) {
-            // Get highlighted sequence
-            if (((HtmlSpan) sequence).getChildElementCount() > 0) {
-                for (DomNode childNode : sequence.getChildNodes()) {
-                    // Highlighted
-                    Node style = childNode.getAttributes().getNamedItem("style");
-                    if (style != null) {
-                        if (style.getNodeValue().contains("background-color:#ffebcd"))
-                            if (startIndex < 0) // New exon
-                                startIndex = characterCount;
-                    } else { // Normal
-                        if (startIndex >= 0) { // Mark exon end and save it
-                            endIndex = characterCount;
-                            exons.add(new Exon(startIndex + 1, endIndex));
-                            startIndex = -1;
+            if (sequence.getVisibleText().matches("^[ACTG]+$")) {
+                // Get highlighted sequence
+                if (((HtmlSpan) sequence).getChildElementCount() > 0) {
+                    for (DomNode childNode : sequence.getChildNodes()) {
+                        // Highlighted
+                        Node style = childNode.getAttributes().getNamedItem("style");
+                        if (style != null) {
+                            if (style.getNodeValue().contains("background-color:#ffebcd"))
+                                if (startIndex < 0) // New exon
+                                    startIndex = characterCount;
+                        } else { // Normal
+                            if (startIndex >= 0) { // Mark exon end and save it
+                                endIndex = characterCount;
+                                exons.add(new Exon(startIndex + 1, endIndex));
+                                startIndex = -1;
+                            }
                         }
+                        characterCount += childNode.getVisibleText().length();
                     }
-                    characterCount += childNode.getVisibleText().length();
+                } else { // Get normal sequence
+                    if (startIndex >= 0) { // Mark exon end and save it
+                        endIndex = characterCount;
+                        exons.add(new Exon(startIndex, endIndex));
+                        startIndex = -1;
+                    }
+                    characterCount += sequence.getVisibleText().length();
                 }
-            } else { // Get normal sequence
-                if (startIndex >= 0) { // Mark exon end and save it
-                    endIndex = characterCount;
-                    exons.add(new Exon(startIndex, endIndex));
-                    startIndex = -1;
-                }
-                characterCount += sequence.getVisibleText().length();
-            }
 
-            // Append sequence content
-            sequenceBuilder.append(sequence.getVisibleText());
+                // Append sequence content
+                sequenceBuilder.append(sequence.getVisibleText());
+            }
         }
 
         // Return ape file format
