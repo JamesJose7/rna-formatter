@@ -18,7 +18,8 @@ public class ApeWriter {
             "VERSION     \n" +
             "SOURCE      .\n" +
             "  ORGANISM  .\n" +
-            "COMMENT     \n" +
+            "COMMENT     %s-5'-for/%s-5'-rev:\n" +
+            "COMMENT     %s-3'-for/%s-3'-rev:\n" +
             "COMMENT     ApEinfo:methylated:1\n" +
             "FEATURES             Location/Qualifiers\n";
 
@@ -62,7 +63,7 @@ public class ApeWriter {
     private static String buildHeaders(String name) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
         String date = dateFormat.format(new Date()).toUpperCase();
-        return String.format(HEADERS, name, date);
+        return String.format(HEADERS, name, date, name, name, name, name);
     }
 
     private static String buildFeature(int start, int end) {
