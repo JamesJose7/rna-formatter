@@ -37,7 +37,7 @@ dependencies {
     implementation 'org.webjars:jquery-ui:1.12.1'
 
 //    runtimeOnly 'mysql:mysql-connector-java'
-    runtimeOnly 'org.postgresql:postgresql:9.4-1201-jdbc4'
+//    runtimeOnly 'org.postgresql:postgresql:9.4-1201-jdbc4'
 
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
