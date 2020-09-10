@@ -6,34 +6,24 @@
     <div th:replace="layout :: nav"></div>
 
     <main class="container">
-        <h1 class="mt-4">About</h1>
+        <h1 class="mt-4 mb-3">About CRISPRts</h1>
 
+        <h3 class="mb-2">Application</h3>
         <div class="row mb-4">
             <div class="col text-justify">
-                <p>Software tools to aid CRISPRTS' work</p>
+                <p>This tool allows easy design of sgRNA oligos, which contains a 5' T7 promoter and a complementary sequence for PCR amplification with a scaffold oligo. This PCR product is then used as template for in vitro transcription.
+                    This tool can be also used to download DNA sequence files from the Ensembl Genome Browser, with annotated exons.</p>
             </div>
         </div>
 
+        <h3 class="mb-2">Contact</h3>
         <div class="row mb-4">
-            <div class="col-12">
-                <h3 class="mb-3">Made by</h3>
+            <div class="col text-left">
+                <p>For questions or suggestions about the CRISPRts app: email <a href="mailto:juan_sebastian.eguiguren@mailbox.tu-dresden.de">Sebastian Eguiguren</a></p>
+                <p>For queries about the source code, or app development: email <a href="mailto:joseeguigurenp@gmail.com">José Eguiguren</a><a href="https://github.com/JamesJose7/rna-formatter" class="fa fa-github ml-2"></a></p>
             </div>
-            <div class="col-md-6">
-                <div class="author-card">
-                    <h4 class="text-center">José Eguiguren</h4>
-                    <img th:src="@{assets/about_pic_jeep.png}" alt="">
-                    <div class="text-center">
-                        <p>App developer</p>
-                        <div>
-                            <a href="mailto:joseeguigurenp@gmail.com" class="fa fa-envelope"></a>
-                            <a href="https://github.com/JamesJose7" class="fa fa-github"></a>
-                            <a href="https://twitter.com/JoseEguigurenP" class="fa fa-twitter"></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
+
     </main>
 </div>
 <div th:replace="layout :: scripts"></div>
